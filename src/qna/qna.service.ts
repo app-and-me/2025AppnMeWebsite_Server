@@ -1,26 +1,33 @@
-import { Injectable } from '@nestjs/common';
+import {
+  HttpStatus,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { CreateQnaDto } from './dto/create-qna.dto';
 import { UpdateQnaDto } from './dto/update-qna.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Qna } from './entities/qna.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class QnaService {
-  create(createQnaDto: CreateQnaDto) {
-    return 'This action adds a new qna';
-  }
+  @InjectRepository(Qna)
+  private qnaRepository: Repository<Qna>;
 
-  findAll() {
-    return `This action returns all qna`;
-  }
+  async create(createQnaDto: CreateQnaDto) {
+    try {
+      const question = {
+        ...createQnaDto,
+      };
 
-  findOne(id: number) {
-    return `This action returns a #${id} qna`;
-  }
-
-  update(id: number, updateQnaDto: UpdateQnaDto) {
-    return `This action updates a #${id} qna`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} qna`;
+      await this.qnaRepository.save(question);
+      return {
+        status: HttpStatus.CREATED,
+        message: 'Question created successfully',
+        data: question,
+      };
+    } catch (e) {
+      throw new InternalServerErrorException('Failed to create question');
+    }
   }
 }

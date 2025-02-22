@@ -31,7 +31,7 @@ export class UsersService {
       await this.userRepository.save(user);
 
       return {
-        status: HttpStatus.OK,
+        status: HttpStatus.CREATED,
         message: 'User created successfully',
         data: user,
       };
