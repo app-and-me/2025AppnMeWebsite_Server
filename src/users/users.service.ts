@@ -1,26 +1,45 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from './entities/user.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
-  }
+  @InjectRepository(User)
+  private userRepository: Repository<User>;
 
-  findAll() {
-    return `This action returns all users`;
-  }
+  // TODO : 엑셀에 사용자 정보 저장
+  async create(createUserDto: CreateUserDto) {
+    try {
+      const user = {
+        ...createUserDto,
+      };
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
+      if (createUserDto.five_letters.length != 5) {
+        throw new BadRequestException(
+          `${createUserDto.five_letters} must be five letters.`,
+        );
+      }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
+      await this.userRepository.save(user);
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+      return {
+        status: HttpStatus.OK,
+        message: 'User created successfully',
+        data: user,
+      };
+    } catch (e) {
+      if (e instanceof BadRequestException) {
+        throw e;
+      }
+      throw new InternalServerErrorException('Failed to create user');
+    }
   }
 }
