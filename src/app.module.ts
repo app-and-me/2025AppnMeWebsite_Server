@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeORMConfig } from './ormconfig';
 import { ConfigModule } from '@nestjs/config';
+import { UsersModule } from './users/users.module';
+import { QnaModule } from './qna/qna.module';
 
 @Module({
   imports: [
@@ -11,6 +13,8 @@ import { ConfigModule } from '@nestjs/config';
       isGlobal: true,
     }),
     TypeOrmModule.forRoot(typeORMConfig),
+    UsersModule,
+    QnaModule,
   ],
   controllers: [AppController],
   providers: [AppService],
