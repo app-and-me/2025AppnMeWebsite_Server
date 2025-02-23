@@ -3,6 +3,7 @@ import {
   CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
+  Timestamp,
 } from 'typeorm';
 
 @Entity('users')
@@ -38,5 +39,5 @@ export class User {
   motivate: string;
 
   @CreateDateColumn()
-  created_at: Date;
+  created_at: Timestamp;
 }

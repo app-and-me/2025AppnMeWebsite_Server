@@ -10,7 +10,6 @@ import { UpdateQnaDto } from './dto/update-qna.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Qna } from './entities/qna.entity';
 import { Repository } from 'typeorm';
-import { NotFoundError } from 'rxjs';
 
 @Injectable()
 export class QnaService {
