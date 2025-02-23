@@ -23,6 +23,9 @@ export class User {
   gender: string;
 
   @Column({ nullable: false })
+  birth_date: string;
+
+  @Column({ nullable: false })
   major: string;
 
   @Column({ nullable: false })

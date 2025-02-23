@@ -19,6 +19,10 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   @IsString()
+  birth_date: string;
+
+  @IsNotEmpty()
+  @IsString()
   major: string;
 
   @IsNotEmpty()
