@@ -17,7 +17,6 @@ export class UsersService {
   @InjectRepository(User)
   private userRepository: Repository<User>;
 
-  // TODO : 엑셀에 사용자 정보 저장
   async create(createUserDto: CreateUserDto) {
     try {
       const user = {
