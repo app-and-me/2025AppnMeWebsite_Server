@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { CreateQnaDto } from './dto/create-qna.dto';
 import { UpdateQnaDto } from './dto/update-qna.dto';
+import { CreateOrUpdateAnswerDto } from './dto/answer-create-update.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Qna } from './entities/qna.entity';
 import { Repository } from 'typeorm';
@@ -29,7 +30,9 @@ export class QnaService {
         data: question,
       };
     } catch (e) {
-      throw new InternalServerErrorException('Failed to create question');
+      throw new InternalServerErrorException(
+        `Failed to create question. : ${e}`,
+      );
     }
   }
 
@@ -61,6 +64,31 @@ export class QnaService {
         throw e;
       }
       throw new InternalServerErrorException('Failed to update question.');
+    }
+  }
+
+  async createOrUpdateAnswer(createOrUpdateAnswerDto: CreateOrUpdateAnswerDto) {
+    try {
+      const { id, answer } = createOrUpdateAnswerDto;
+      const question = await this.qnaRepository.findOneBy({ id });
+      if (!question) {
+        throw new NotFoundException('Question not found.');
+      }
+      await this.qnaRepository.update(id, { answer });
+      const newAnswer = await this.qnaRepository.findOneBy({ id });
+
+      return {
+        status: HttpStatus.OK,
+        message: `Question(${id}) answered and updated successfully`,
+        data: newAnswer,
+      };
+    } catch (e) {
+      if (e instanceof NotFoundException) {
+        throw e;
+      }
+      throw new InternalServerErrorException(
+        `Failed to answer or update the question. : ${e}`,
+      );
     }
   }
 }
