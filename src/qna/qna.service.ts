@@ -91,4 +91,41 @@ export class QnaService {
       );
     }
   }
+
+  async findAllQuestions() {
+    try {
+      const questions = await this.qnaRepository.find();
+      return {
+        status: HttpStatus.OK,
+        message: 'All questions fetched successfully',
+        data: questions,
+      };
+    } catch (e) {
+      throw new InternalServerErrorException(
+        `Failed to fetch questions : ${e}`,
+      );
+    }
+  }
+
+  async findOneQuestion(id: number) {
+    try {
+      const question = await this.qnaRepository.findOneBy({ id });
+      if (!question) {
+        throw new NotFoundException('Question not found.');
+      }
+
+      return {
+        status: HttpStatus.OK,
+        message: `Question(${id}) fetched successfully`,
+        data: question,
+      };
+    } catch (e) {
+      if (e instanceof NotFoundException) {
+        throw e;
+      }
+      throw new InternalServerErrorException(
+        `Failed to fetch question(${id}) : ${e}`,
+      );
+    }
+  }
 }
