@@ -7,7 +7,6 @@ import {
 } from '@nestjs/common';
 import { CreateQnaDto } from './dto/create-qna.dto';
 import { UpdateQnaDto } from './dto/update-qna.dto';
-import { CreateOrUpdateAnswerDto } from './dto/answer-create-update.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Qna } from './entities/qna.entity';
 import { Repository } from 'typeorm';
@@ -67,14 +66,13 @@ export class QnaService {
     }
   }
 
-  async createOrUpdateAnswer(createOrUpdateAnswerDto: CreateOrUpdateAnswerDto) {
+  async createOrUpdateAnswer(id, answer: UpdateQnaDto) {
     try {
-      const { id, answer } = createOrUpdateAnswerDto;
       const question = await this.qnaRepository.findOneBy({ id });
       if (!question) {
         throw new NotFoundException('Question not found.');
       }
-      await this.qnaRepository.update(id, { answer });
+      await this.qnaRepository.update(id, answer);
       const newAnswer = await this.qnaRepository.findOneBy({ id });
 
       return {
@@ -97,7 +95,7 @@ export class QnaService {
       const questions = await this.qnaRepository.find();
       return {
         status: HttpStatus.OK,
-        message: 'All questions fetched successfully',
+        message: 'All questions retrieved successfully',
         data: questions,
       };
     } catch (e) {
@@ -116,7 +114,7 @@ export class QnaService {
 
       return {
         status: HttpStatus.OK,
-        message: `Question(${id}) fetched successfully`,
+        message: `Question(${id}) retrieved successfully`,
         data: question,
       };
     } catch (e) {

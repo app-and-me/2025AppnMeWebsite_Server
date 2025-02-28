@@ -1,7 +1,7 @@
 import { Controller, Post, Body, Patch, Param, Get } from '@nestjs/common';
 import { QnaService } from './qna.service';
 import { CreateQnaDto } from './dto/create-qna.dto';
-import { CreateOrUpdateAnswerDto } from './dto/answer-create-update.dto';
+import { UpdateQnaDto } from './dto/update-qna.dto';
 
 @Controller('qna')
 export class QnaController {
@@ -12,7 +12,7 @@ export class QnaController {
     return this.qnaService.findAllQuestions();
   }
 
-  @Get('answer/:id')
+  @Get(':id')
   findOne(@Param('id') id: number) {
     return this.qnaService.findOneQuestion(id);
   }
@@ -28,9 +28,7 @@ export class QnaController {
   }
 
   @Patch('answer/:id')
-  createAndUpdateAnser(
-    @Body() createOrUpdateAnswerDto: CreateOrUpdateAnswerDto,
-  ) {
-    return this.qnaService.createOrUpdateAnswer(createOrUpdateAnswerDto);
+  createOrUpdateAnswer(@Param('id') id: number, @Body() answer: UpdateQnaDto) {
+    return this.qnaService.createOrUpdateAnswer(id, answer);
   }
 }
