@@ -46,7 +46,10 @@ export class QnaService {
         throw new UnauthorizedException('Password does not match.');
       }
 
-      await this.qnaRepository.update(id, updateQnaDto);
+      const updates = {
+        content: updateQnaDto.content,
+      };
+      await this.qnaRepository.update(id, updates);
 
       const newQuestion = await this.qnaRepository.findOneBy({ id });
 
