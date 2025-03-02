@@ -7,9 +7,5 @@ export class CreateQnaDto {
 
   @IsNotEmpty()
   @IsString()
-  title: string;
-
-  @IsNotEmpty()
-  @IsString()
   content: string;
 }
