@@ -95,4 +95,26 @@ export class QnaService {
       );
     }
   }
+
+  async remove(id: number) {
+    try {
+      const question = await this.qnaRepository.findOneBy({ id });
+      if (!question) {
+        throw new NotFoundException('Question not found.');
+      }
+
+      await this.qnaRepository.delete(id);
+      return {
+        status: HttpStatus.OK,
+        message: `Question(${id}) deleted successfully`,
+      };
+    } catch (e) {
+      if (e instanceof NotFoundException) {
+        throw e;
+      }
+      throw new InternalServerErrorException(
+        `Failed to delete question(${id}) : ${e}`,
+      );
+    }
+  }
 }

@@ -1,4 +1,12 @@
-import { Controller, Post, Body, Patch, Param, Get } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Get,
+  Delete,
+} from '@nestjs/common';
 import { QnaService } from './qna.service';
 import { CreateQnaDto } from './dto/create-qna.dto';
 import { UpdateQnaDto } from './dto/update-qna.dto';
@@ -25,5 +33,10 @@ export class QnaController {
   @Patch('answer/:id')
   createOrUpdateAnswer(@Param('id') id: number, @Body() answer: UpdateQnaDto) {
     return this.qnaService.createOrUpdateAnswer(id, answer);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: number) {
+    return this.qnaService.remove(id);
   }
 }
