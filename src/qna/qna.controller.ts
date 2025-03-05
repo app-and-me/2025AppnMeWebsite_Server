@@ -22,11 +22,6 @@ export class QnaController {
     return this.qnaService.create(createQnaDto);
   }
 
-  @Patch('question/:id')
-  update(@Param('id') id: number, @Body() updateQnaDto) {
-    return this.qnaService.update(id, updateQnaDto);
-  }
-
   @Patch('answer/:id')
   createOrUpdateAnswer(@Param('id') id: number, @Body() answer: UpdateQnaDto) {
     return this.qnaService.createOrUpdateAnswer(id, answer);

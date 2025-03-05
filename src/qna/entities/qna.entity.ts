@@ -11,9 +11,6 @@ export class Qna {
   id: number;
 
   @Column({ nullable: false })
-  password: string;
-
-  @Column({ nullable: false })
   content: string;
 
   @Column({ nullable: true })

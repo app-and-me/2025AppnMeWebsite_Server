@@ -35,37 +35,6 @@ export class QnaService {
     }
   }
 
-  async update(id: number, updateQnaDto: UpdateQnaDto) {
-    try {
-      const question = await this.qnaRepository.findOneBy({ id });
-      if (!question) {
-        throw new NotFoundException('Question not found.');
-      }
-
-      if (question.password != updateQnaDto.password) {
-        throw new UnauthorizedException('Password does not match.');
-      }
-
-      await this.qnaRepository.update(id, updateQnaDto);
-
-      const newQuestion = await this.qnaRepository.findOneBy({ id });
-
-      return {
-        status: HttpStatus.OK,
-        message: 'Question updated successfully',
-        data: newQuestion,
-      };
-    } catch (e) {
-      if (
-        e instanceof NotFoundException ||
-        e instanceof UnauthorizedException
-      ) {
-        throw e;
-      }
-      throw new InternalServerErrorException('Failed to update question.');
-    }
-  }
-
   async createOrUpdateAnswer(id, answer: UpdateQnaDto) {
     try {
       const question = await this.qnaRepository.findOneBy({ id });
