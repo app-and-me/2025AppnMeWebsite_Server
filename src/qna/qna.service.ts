@@ -61,7 +61,9 @@ export class QnaService {
 
   async findAllQuestions() {
     try {
-      const questions = await this.qnaRepository.find();
+      const questions = await this.qnaRepository.find({
+        order: { id: 'DESC' },
+      });
       return {
         status: HttpStatus.OK,
         message: 'All questions retrieved successfully',
