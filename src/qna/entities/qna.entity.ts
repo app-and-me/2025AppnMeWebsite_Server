@@ -5,7 +5,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity('qna')
+@Entity('api/qna')
 export class Qna {
   @PrimaryGeneratedColumn()
   id: number;
