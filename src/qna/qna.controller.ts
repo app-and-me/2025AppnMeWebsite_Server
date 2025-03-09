@@ -11,7 +11,7 @@ import { QnaService } from './qna.service';
 import { CreateQnaDto } from './dto/create-qna.dto';
 import { UpdateQnaDto } from './dto/update-qna.dto';
 
-@Controller('qna')
+@Controller('api/qna')
 export class QnaController {
   constructor(private readonly qnaService: QnaService) {}
 
