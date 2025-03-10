@@ -14,7 +14,7 @@ async function bootstrap() {
   });
 
   // CORS 설정
-  출처: https: app.enableCors({
+  app.enableCors({
     origin: '*',
     methods: 'GET, POST, DELETE, PUT, PATCH, HEAD',
     credentials: true,
