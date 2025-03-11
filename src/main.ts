@@ -4,14 +4,8 @@ import { ValidationPipe } from '@nestjs/common';
 import * as fs from 'fs';
 
 async function bootstrap() {
-  const httpsOptions = {
-    key: fs.readFileSync('./create-ca-key.pem'),
-    cert: fs.readFileSync('./create-ca.pem'),
-  };
 
-  const app = await NestFactory.create(AppModule, {
-    httpsOptions,
-  });
+  const app = await NestFactory.create(AppModule);
 
   // CORS 설정
   app.enableCors({
